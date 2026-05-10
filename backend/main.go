@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -25,8 +26,15 @@ func main() {
 	r := gin.Default()
 
 	// Allow requests from the Next.js frontend
+	// FRONTEND_URL supports comma-separated origins e.g. "https://app.vercel.app,http://localhost:3000"
+	rawOrigins := os.Getenv("FRONTEND_URL")
+	allowedOrigins := strings.Split(rawOrigins, ",")
+	for i, o := range allowedOrigins {
+		allowedOrigins[i] = strings.TrimSpace(o)
+	}
+
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{os.Getenv("FRONTEND_URL")},
+		AllowOrigins: allowedOrigins,
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Authorization", "Content-Type"},
 	}))

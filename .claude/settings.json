@@ -1,0 +1,27 @@
+{
+  "model": "claude-sonnet-4-5",
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(**)",
+      "Edit(**)",
+      "Bash(go build:*)",
+      "Bash(go run:*)",
+      "Bash(go test:*)",
+      "Bash(go mod:*)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(drop table:*)"
+    ]
+  },
+  "context": {
+    "files": [
+      "CLAUDE.md",
+      "backend/CLAUDE.md",
+      "frontend/CLAUDE.md"
+    ]
+  }
+}

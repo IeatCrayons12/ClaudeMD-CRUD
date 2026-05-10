@@ -1,0 +1,40 @@
+# Environment files — never commit secrets
+.env
+.env.local
+.env*.local
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+
+# TypeScript
+*.tsbuildinfo
+frontend/next-env.d.ts
+
+# Go build output
+backend/tmp/
+backend/server
+*.exe
+*.test
+
+# Go vendor (if used)
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

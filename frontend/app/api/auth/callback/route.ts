@@ -1,7 +1,5 @@
-import { createServerClient, type CookieMethodsServer } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
-
-type CookieToSet = Parameters<CookieMethodsServer["setAll"]>[0][number];
 
 // Handles the OAuth callback from Supabase after Google login
 export async function GET(request: NextRequest) {
@@ -24,9 +22,6 @@ export async function GET(request: NextRequest) {
   const response = NextResponse.redirect(redirectTo);
 
   if (code) {
-    // IMPORTANT: cookies must be set on `response`, not on `cookieStore`.
-    // In Next.js 15 Route Handlers, cookieStore.set() doesn't write
-    // Set-Cookie headers to the browser — response.cookies.set() does.
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -35,9 +30,9 @@ export async function GET(request: NextRequest) {
           getAll() {
             return request.cookies.getAll();
           },
-          setAll(cookiesToSet: CookieToSet[]) {
+          setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
             cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options)
+              response.cookies.set(name, value, options as Parameters<typeof response.cookies.set>[2])
             );
           },
         },
